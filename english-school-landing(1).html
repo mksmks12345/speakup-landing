@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpeakUp — Онлайн-школа английского языка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-1: #6C3EFF;
+    --brand-2: #FF5F7E;
+    --brand-3: #FFB347;
+    --brand-4: #00D8B4;
+    --dark: #0D0B1F;
+    --dark-2: #1A1733;
+    --dark-3: #251F4A;
+    --text-muted: rgba(255,255,255,0.55);
+    --text-light: rgba(255,255,255,0.85);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .nav-logo { font-family: 'Syne', sans-serif; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 60px;
+    background: rgba(13,11,31,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo {
+    font-size: 22px; font-weight: 800;
+    background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    color: #fff; border: none; padding: 12px 28px;
+    border-radius: 50px; font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.9; transform: scale(1.03); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 60px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .blob {
+    position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35;
+  }
+  .blob-1 { width: 600px; height: 600px; background: var(--brand-1); top: -100px; right: -100px; }
+  .blob-2 { width: 400px; height: 400px; background: var(--brand-2); bottom: 0; left: 200px; }
+  .blob-3 { width: 300px; height: 300px; background: var(--brand-3); top: 200px; right: 300px; opacity: 0.2; }
+
+  .hero-content { position: relative; max-width: 700px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(108,62,255,0.2); border: 1px solid rgba(108,62,255,0.4);
+    border-radius: 50px; padding: 8px 18px; margin-bottom: 28px;
+    font-size: 14px; color: #B8A5FF; font-weight: 500;
+  }
+  .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand-4); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.2)} }
+
+  h1 {
+    font-size: clamp(42px, 6vw, 76px);
+    font-weight: 800; line-height: 1.05;
+    margin-bottom: 24px;
+  }
+  .gradient-text {
+    background: linear-gradient(90deg, #A78BFF, var(--brand-2), var(--brand-3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: 18px; color: var(--text-light);
+    line-height: 1.7; margin-bottom: 40px; max-width: 560px;
+    font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    color: #fff; border: none; padding: 16px 36px;
+    border-radius: 50px; font-size: 16px; font-weight: 500;
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 8px 32px rgba(108,62,255,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(108,62,255,0.5); }
+  .btn-secondary {
+    background: transparent; color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 16px 36px; border-radius: 50px; font-size: 16px;
+    font-weight: 500; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 56px;
+    padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 700; }
+  .stat-num span { background: linear-gradient(90deg, var(--brand-4), #7BFFD4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: 100px 60px; }
+  .section-tag {
+    display: inline-block;
+    font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--brand-4); margin-bottom: 16px;
+  }
+  .section-title { font-size: clamp(32px, 4vw, 52px); font-weight: 700; line-height: 1.1; margin-bottom: 16px; }
+  .section-sub { font-size: 17px; color: var(--text-muted); line-height: 1.7; max-width: 560px; font-weight: 300; }
+
+  /* ─── FEATURES / WHY US ─── */
+  .why { background: var(--dark-2); }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px; margin-top: 56px;
+  }
+  .why-card {
+    background: var(--dark-3); border-radius: var(--radius);
+    padding: 32px; border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .why-card:hover { transform: translateY(-4px); border-color: rgba(108,62,255,0.3); }
+  .why-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 20px;
+  }
+  .why-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .why-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ─── SERVICES / FORMATS ─── */
+  .formats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; margin-top: 56px;
+  }
+  .format-card {
+    border-radius: var(--radius); padding: 36px;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative; overflow: hidden; cursor: default;
+    transition: transform 0.2s;
+  }
+  .format-card:hover { transform: translateY(-4px); }
+  .format-card::before {
+    content: ''; position: absolute; inset: 0;
+    opacity: 0.08; transition: opacity 0.2s;
+  }
+  .format-card:hover::before { opacity: 0.15; }
+  .fc-1 { background: linear-gradient(135deg, rgba(108,62,255,0.15), transparent); }
+  .fc-1::before { background: var(--brand-1); }
+  .fc-2 { background: linear-gradient(135deg, rgba(255,95,126,0.15), transparent); }
+  .fc-2::before { background: var(--brand-2); }
+  .fc-3 { background: linear-gradient(135deg, rgba(0,216,180,0.15), transparent); }
+  .fc-3::before { background: var(--brand-4); }
+  .fc-4 { background: linear-gradient(135deg, rgba(255,179,71,0.15), transparent); }
+  .fc-4::before { background: var(--brand-3); }
+
+  .format-emoji { font-size: 36px; margin-bottom: 20px; }
+  .format-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+  .format-card p { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; }
+  .format-price {
+    font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700;
+  }
+  .price-label { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+
+  /* ─── TEACHERS ─── */
+  .teachers { background: var(--dark-2); }
+  .teachers-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px; margin-top: 56px;
+  }
+  .teacher-card {
+    background: var(--dark-3); border-radius: var(--radius);
+    padding: 28px; text-align: center; border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.2s;
+  }
+  .teacher-card:hover { transform: translateY(-4px); }
+  .teacher-avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 700; font-family: 'Syne', sans-serif;
+  }
+  .teacher-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .teacher-card .tcert { font-size: 12px; color: var(--brand-4); font-weight: 500; margin-bottom: 8px; }
+  .teacher-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ─── FORM ─── */
+  .form-section { background: var(--dark); }
+  .form-wrap {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center; max-width: 1100px; margin: 0 auto;
+  }
+  .form-left .section-sub { margin-bottom: 32px; }
+  .form-perks { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .form-perks li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 15px; color: var(--text-light);
+  }
+  .perk-check {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(0,216,180,0.15); border: 1px solid var(--brand-4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: var(--brand-4); flex-shrink: 0;
+  }
+  .form-right {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius); padding: 40px;
+  }
+  .form-right h3 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .form-right p { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: var(--dark-3); border: 1px solid rgba(255,255,255,0.1);
+    color: #fff; padding: 14px 18px; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-group select { cursor: pointer; }
+  .form-group select option { background: var(--dark-2); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--brand-1);
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .form-group textarea { resize: none; height: 90px; }
+  .form-submit {
+    width: 100%; background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    color: #fff; border: none; padding: 16px;
+    border-radius: 50px; font-size: 16px; font-weight: 500;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 8px 24px rgba(108,62,255,0.35);
+    margin-top: 8px;
+  }
+  .form-submit:hover { opacity: 0.92; transform: translateY(-1px); }
+  .form-note { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+
+  /* ─── SUCCESS MESSAGE ─── */
+  .success-msg {
+    display: none; text-align: center; padding: 40px 20px;
+  }
+  .success-msg .check-big { font-size: 56px; margin-bottom: 16px; }
+  .success-msg h3 { font-size: 22px; margin-bottom: 8px; }
+  .success-msg p { color: var(--text-muted); font-size: 15px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 40px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; background: linear-gradient(90deg, var(--brand-1), var(--brand-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  footer p { font-size: 13px; color: var(--text-muted); }
+
+  /* ─── SCROLL ANIM ─── */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section, .hero { padding: 80px 24px; }
+    footer { padding: 32px 24px; }
+    .form-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SpeakUp</div>
+  <ul class="nav-links">
+    <li><a href="#why">О нас</a></li>
+    <li><a href="#formats">Форматы</a></li>
+    <li><a href="#teachers">Преподаватели</a></li>
+    <li><a href="#apply">Записаться</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Бесплатный урок</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-content reveal">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Принимаем учеников прямо сейчас
+    </div>
+    <h1>Заговори<br>на английском<br><span class="gradient-text">за 3 месяца</span></h1>
+    <p class="hero-sub">Онлайн-школа для детей, подростков и взрослых. Живые преподаватели, гибкое расписание и проверенная методика — без скуки и зубрёжки.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Записаться на пробный урок</button>
+      <button class="btn-secondary" onclick="document.getElementById('formats').scrollIntoView({behavior:'smooth'})">Узнать форматы</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num"><span>1 200+</span></div>
+        <div class="stat-label">учеников по всему миру</div>
+      </div>
+      <div>
+        <div class="stat-num"><span>96%</span></div>
+        <div class="stat-label">доходят до результата</div>
+      </div>
+      <div>
+        <div class="stat-num"><span>4.9 ★</span></div>
+        <div class="stat-label">средняя оценка уроков</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why" id="why">
+  <div class="reveal">
+    <span class="section-tag">Почему SpeakUp</span>
+    <h2 class="section-title">Учить язык — это<br>не должно быть скучно</h2>
+    <p class="section-sub">Мы строим обучение вокруг вашей жизни, а не наоборот. Всё, что нужно — интернет и желание.</p>
+  </div>
+  <div class="why-grid reveal">
+    <div class="why-card">
+      <div class="why-icon" style="background:rgba(108,62,255,0.15);">🎯</div>
+      <h3>Цель — живое общение</h3>
+      <p>С первого урока вы говорите, а не переводите правила. Коммуникативный подход + практика каждый урок.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon" style="background:rgba(255,95,126,0.15);">⏰</div>
+      <h3>Расписание под вас</h3>
+      <p>Занимайтесь утром, вечером или в выходные. Перенос урока за 6 часов — без штрафов и вопросов.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon" style="background:rgba(0,216,180,0.15);">🏆</div>
+      <h3>Сертифицированные педагоги</h3>
+      <p>CELTA, TKT, DELTA — только те, кто прошёл строгий отбор и продолжает обучение сам.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon" style="background:rgba(255,179,71,0.15);">📈</div>
+      <h3>Видимый прогресс</h3>
+      <p>Ежемесячные чекинты и тесты уровня. Вы всегда знаете, насколько выросли за месяц.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon" style="background:rgba(108,62,255,0.15);">🌍</div>
+      <h3>Международная среда</h3>
+      <p>Разговорный клуб с учениками из 20+ стран. Практика с реальными людьми, а не только с учителем.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon" style="background:rgba(255,95,126,0.15);">💬</div>
+      <h3>Поддержка между уроками</h3>
+      <p>Чат с куратором, домашние задания в Notion и разбор ошибок — обучение не заканчивается в 18:00.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS / SERVICES -->
+<section id="formats">
+  <div class="reveal">
+    <span class="section-tag">Форматы</span>
+    <h2 class="section-title">Выберите свой путь</h2>
+    <p class="section-sub">Четыре формата — от индивидуального до интенсивной подготовки к экзамену. Можно совмещать.</p>
+  </div>
+  <div class="formats-grid reveal">
+    <div class="format-card fc-1">
+      <div class="format-emoji">👤</div>
+      <h3>Индивидуальные занятия</h3>
+      <p>Программа 1-на-1 с преподавателем, полностью адаптированная под ваши цели, уровень и темп. Идеально для быстрого роста.</p>
+      <div class="format-price">от 4 500 ₸ <span class="price-label">/ урок</span></div>
+    </div>
+    <div class="format-card fc-2">
+      <div class="format-emoji">👥</div>
+      <h3>Групповые курсы</h3>
+      <p>Мини-группы по 4–6 человек одного уровня. Живая динамика, партнёрские задания и цена вдвое ниже инди.</p>
+      <div class="format-price">от 2 200 ₸ <span class="price-label">/ урок</span></div>
+    </div>
+    <div class="format-card fc-3">
+      <div class="format-emoji">☕</div>
+      <h3>Разговорный клуб</h3>
+      <p>2 раза в неделю — живые дискуссии на актуальные темы. Прокачайте беглость и перестаньте бояться говорить.</p>
+      <div class="format-price">от 1 500 ₸ <span class="price-label">/ встреча</span></div>
+    </div>
+    <div class="format-card fc-4">
+      <div class="format-emoji">📝</div>
+      <h3>Подготовка к IELTS / TOEFL</h3>
+      <p>Экзаменационная программа с разбором всех 4 секций. Гарантия возврата за 72 ч до экзамена при недоборе балла.</p>
+      <div class="format-price">от 5 500 ₸ <span class="price-label">/ урок</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHERS -->
+<section class="teachers" id="teachers">
+  <div class="reveal">
+    <span class="section-tag">Преподаватели</span>
+    <h2 class="section-title">Живые люди, не боты</h2>
+    <p class="section-sub">Каждый педагог прошёл собеседование, тестовый урок и сертификацию. Мы знаем их лично.</p>
+  </div>
+  <div class="teachers-grid reveal">
+    <div class="teacher-card">
+      <div class="teacher-avatar" style="background:rgba(108,62,255,0.2);color:#A78BFF;">SA</div>
+      <h4>Sarah Adams</h4>
+      <div class="tcert">CELTA · Cambridge</div>
+      <p>Business English & IELTS. 8 лет опыта, ученики в Google и McKinsey.</p>
+    </div>
+    <div class="teacher-card">
+      <div class="teacher-avatar" style="background:rgba(255,95,126,0.2);color:#FF8FA3;">DK</div>
+      <h4>David Kim</h4>
+      <div class="tcert">DELTA · MA Linguistics</div>
+      <p>Произношение и разговорный English. Ведёт клуб по средам и пятницам.</p>
+    </div>
+    <div class="teacher-card">
+      <div class="teacher-avatar" style="background:rgba(0,216,180,0.2);color:#00D8B4;">AN</div>
+      <h4>Алия Нурова</h4>
+      <div class="tcert">TKT · Young Learners</div>
+      <p>Специалист по детям 6–14 лет. Геймификация и story-based learning.</p>
+    </div>
+    <div class="teacher-card">
+      <div class="teacher-avatar" style="background:rgba(255,179,71,0.2);color:#FFB347;">JM</div>
+      <h4>James Moore</h4>
+      <div class="tcert">CELTA · TOEFL Expert</div>
+      <p>Экзаменационный коуч. Средний балл TOEFL у учеников — 107/120.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="apply">
+  <div class="form-wrap">
+    <div class="form-left reveal">
+      <span class="section-tag">Заявка</span>
+      <h2 class="section-title">Пробный урок<br><span class="gradient-text">бесплатно</span></h2>
+      <p class="section-sub">Оставьте заявку — мы свяжемся в течение 30 минут, подберём преподавателя и время, удобное именно вам.</p>
+      <ul class="form-perks">
+        <li><div class="perk-check">✓</div>Без оплаты и обязательств</li>
+        <li><div class="perk-check">✓</div>Определим ваш уровень за 15 минут</li>
+        <li><div class="perk-check">✓</div>Составим персональный план обучения</li>
+        <li><div class="perk-check">✓</div>Ответим на все вопросы о формате</li>
+      </ul>
+    </div>
+    <div class="form-right reveal">
+      <div id="form-container">
+        <h3>Записаться на урок</h3>
+        <p>Заполните форму — это займёт 1 минуту</p>
+        <form id="lead-form" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>Ваше имя *</label>
+            <input type="text" name="name" placeholder="Иван Петров" required>
+          </div>
+          <div class="form-group">
+            <label>Телефон *</label>
+            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="ivan@email.com">
+          </div>
+          <div class="form-group">
+            <label>Формат обучения</label>
+            <select name="format">
+              <option value="">Выберите формат</option>
+              <option>Индивидуальные занятия</option>
+              <option>Групповые курсы</option>
+              <option>Разговорный клуб</option>
+              <option>Подготовка к IELTS / TOEFL</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Ваш уровень</label>
+            <select name="level">
+              <option value="">Не уверен / хочу проверить</option>
+              <option>Beginner (с нуля)</option>
+              <option>Elementary (A1–A2)</option>
+              <option>Pre-Intermediate (B1)</option>
+              <option>Intermediate (B1–B2)</option>
+              <option>Upper-Intermediate и выше</option>
+            </select>
+          </div>
+          <button type="submit" class="form-submit">Записаться бесплатно →</button>
+          <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</p>
+        </form>
+      </div>
+      <div class="success-msg" id="success-msg">
+        <div class="check-big">🎉</div>
+        <h3>Заявка принята!</h3>
+        <p>Мы позвоним вам в течение 30 минут и подберём удобное время для пробного урока.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SpeakUp</div>
+  <p>© 2025 SpeakUp English School. Онлайн по всему миру.</p>
+  <p style="font-size:13px;color:var(--text-muted);">hello@speakup.school · +7 (777) 000-00-00</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
+      name: form.name.value,
+      phone: form.phone.value,
+      email: form.email.value,
+      format: form.format.value,
+      level: form.level.value,
+      source: 'landing',
+      created_at: new Date().toISOString()
+    };
+
+    const WEBHOOK = 'https://b24-76gpgx.bitrix24.ru/rest/1/asuwcuht3mvsdxke/crm.lead.add.json';
+
+    const params = new URLSearchParams({
+      'fields[TITLE]': 'Заявка с сайта — ' + data.name,
+      'fields[NAME]': data.name,
+      'fields[PHONE][0][VALUE]': data.phone,
+      'fields[PHONE][0][VALUE_TYPE]': 'WORK',
+      'fields[EMAIL][0][VALUE]': data.email,
+      'fields[EMAIL][0][VALUE_TYPE]': 'WORK',
+      'fields[SOURCE_ID]': 'WEB',
+      'fields[SOURCE_DESCRIPTION]': 'Лендинг SpeakUp',
+      'fields[COMMENTS]': 'Формат: ' + data.format + '\nУровень: ' + data.level,
+      'fields[UF_CRM_FORMAT]': data.format,
+      'fields[UF_CRM_LEVEL]': data.level,
+    });
+
+    fetch(WEBHOOK + '?' + params.toString())
+      .then(r => r.json())
+      .then(res => console.log('Лид создан:', res))
+      .catch(err => console.error('Ошибка:', err));
+
+    document.getElementById('form-container').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
